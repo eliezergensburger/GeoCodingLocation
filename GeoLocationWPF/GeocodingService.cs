@@ -12,17 +12,17 @@ namespace GeoLocationWPF
 
     public class GeocodingService
     {
-        //private const string API_KEY = "pk.264a902768a4fb469098f6a4adcec227"; // Replace with your actual API key
-        private const string API_KEY = "66e985d579380435186975nvc4571ec"; // Replace with your actual API key
-        // const string BaseUrl = "https://us1.locationiq.com/v1/";      // Replace with your actual provider URL
-        private const string BaseUrl = "https://geocode.maps.co/search?q=address&api_key=66e985d579380435186975nvc4571ec";      // Replace with your actual provider URL
+        private const string API_KEY = "pk.264a902768a4fb469098f6a4adcec227"; // Replace with your actual API key
+        //private const string API_KEY = "66e985d579380435186975nvc4571ec"; // Replace with your actual API key
+         const string BaseUrl = "https://us1.locationiq.com/v1/";      // Replace with your actual provider URL
+        // const string BaseUrl = "https://geocode.maps.co/";      // Replace with your actual provider URL
 
         public async Task<Location?> GetCoordinatesFromAddressAsync(string address)
         {
             if (string.IsNullOrWhiteSpace(address)) throw new ArgumentException("Address cannot be null or empty", nameof(address));
 
-            //var url = $"{BaseUrl}search.php?key={API_KEY}&q={Uri.EscapeDataString(address)}&format=json";
-            var url = $"{BaseUrl}search?q={Uri.EscapeDataString(address)}&api_key=={API_KEY}&format=json";
+            var url = $"{BaseUrl}search.php?key={API_KEY}&q={Uri.EscapeDataString(address)}&format=json";
+            //var url = $"{BaseUrl}search?q={Uri.EscapeDataString(address)}&api_key=={API_KEY}";
 
             var results = await SendRequestAsync<LocationIQResult[]>(url);
             return results?.Length > 0 ? new Location(results[0]) : null;
@@ -34,8 +34,8 @@ namespace GeoLocationWPF
         /// </summary>
         public async Task<string?> GetAddressAsync(double latitude, double longitude)
         {
-            //var url = $"{BaseUrl}reverse.php?key={API_KEY}&lat={latitude}&lon={longitude}&format=json";
-            var url = $"{BaseUrl}reverse?api_key={API_KEY}&lat={latitude}&lon={longitude}&format=json";
+            var url = $"{BaseUrl}reverse.php?key={API_KEY}&lat={latitude}&lon={longitude}&format=json";
+            //var url = $"{BaseUrl}reverse?api_key={API_KEY}&lat={latitude}&lon={longitude}&format=json";
 
             var result = await SendRequestAsync<LocationIQReverseResult>(url);
             return result?.DisplayName;
